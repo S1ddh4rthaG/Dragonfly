@@ -1,0 +1,136 @@
+body, html{
+  background-color: #FFFFF9;
+  /* background-color: #FFFFFF!important; */
+}
+
+.regs-display table td {
+  padding: 2px !important;
+}
+
+.regs-display table tbody td:nth-child(2){
+  font-family: 'Poppins', sans-serif;
+}
+
+.regs-display table tr td:nth-child(1) {
+  font-weight: bold;
+}
+
+.pipeline {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0px;
+}
+
+.pipeline td,
+.pipeline th {
+  padding: 2px;
+  width: 100px;
+  text-align: center;
+}
+
+.pipeline thead tr th:first-child {
+  background: white;
+  position: sticky;
+  left: 0;
+  z-index: 10;
+}
+
+.pipeline thead tr th {
+  border: solid;
+  border-width: 1px 1px 1px 1px;
+  font-weight: bold;
+}
+
+
+.pipeline thead tr th:nth-child(1) {
+  width: 150px;
+}
+
+
+.pipeline tbody tr td {
+  font-weight: bold;
+  border: solid;
+  border-width: 1px 1px 1px 1px;
+}
+
+.pipeline tbody tr td:first-child {
+  background: white;
+  position: sticky;
+  left: 0;
+  z-index: 10;
+}
+
+
+.pipeline .stg-empty {
+  background-color: white;
+}
+
+.sidebar {
+  width: 3rem;
+}
+
+.memory {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0px;
+}
+
+.memory td,
+.memory th {
+  padding: 2px;
+  width: 120px;
+  text-align: center;
+  border: 1px solid;
+  border-color: #DEE2E6;
+}
+
+.memory tbody td:not(:first-child){
+  font-family: 'Poppins', sans-serif;
+}
+
+.memory tbody tr td:first-child {
+  font-weight: bold;
+}
+
+.memory thead tr:nth-child(1) th {
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.font-primary{
+  font-family: 'Crimson Text', serif;
+}
+
+.font-secondary{
+  font-family: 'Roboto Slab', serif;
+}
+
+.font-teritary{
+  font-family: 'Open Sans', sans-serif;
+}
+.toolbar li button{
+  color: #2C3246;
+  margin: 0px 1px 0px;
+}
+
+.toolbar li button.active{
+  background-color: #2C3246 !important;
+}
+
+.ca-primary{
+  background-color: #50A8EA !important;
+}
+
+.ca-secondary{
+  background-color: #2C3246 !important;
+}
+
+.ca-text-primary{
+  color: #2C3246;
+}
+
+.ca-text-secondary{
+  background-color: #FFFFFF;
+}
