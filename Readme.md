@@ -54,19 +54,19 @@ They have files that are planned to be implimented if this Project is revisited.
 
 Editor
 
-![Editor](https://github.com/S1ddh4rthaG/Dragonfly/blob/master/imgs/editor.png)
+![Editor](https://github.com/S1ddh4rthaG/Dragonfly/blob/main/imgs/editor.png)
 
 Pipeline
 
-![Pipeline](https://github.com/S1ddh4rthaG/Dragonfly/blob/master/imgs/pipeline_page.png)
+![Pipeline](https://github.com/S1ddh4rthaG/Dragonfly/blob/main/imgs/pipeline_page.png)
 
 Memory
 
-![Memory](https://github.com/S1ddh4rthaG/Dragonfly/blob/master/imgs/memory.png)
+![Memory](https://github.com/S1ddh4rthaG/Dragonfly/blob/main/imgs/memory.png)
 
 Pipeline Detailed View
 
-![Pipeline Detailed](https://github.com/S1ddh4rthaG/Dragonfly/blob/master/imgs/pipeline.png)
+![Pipeline Detailed](https://github.com/S1ddh4rthaG/Dragonfly/blob/main/imgs/pipeline.png)
 
 
 ## Attributions
