@@ -1,7 +1,21 @@
 import { Memory } from "./MemoryModule.js";
 
 let labels = [];
-let directives = ["string", "asciz", "equ", "byte", "2byte", "half", "short", "4byte", "word", "long", "8byte", "dword", "quad"];
+let directives = [
+  "string",
+  "asciz",
+  "equ",
+  "byte",
+  "2byte",
+  "half",
+  "short",
+  "4byte",
+  "word",
+  "long",
+  "8byte",
+  "dword",
+  "quad",
+];
 let special = ["text", "data"];
 
 class DataLexer {
@@ -304,9 +318,9 @@ class ImproperDataParser {
     this.lexer = new DataLexer(source);
     this.tokens = this.lexer.lex_lines;
     this.pos = 0;
-    console.log(this.tokens) //token printing
-    console.log(labels) //check labels
-    this.convertToRISCV()
+    console.log(this.tokens); //token printing
+    console.log(labels); //check labels
+    this.convertToRISCV();
   }
 
   currentToken() {
@@ -314,9 +328,21 @@ class ImproperDataParser {
   }
 
   alignMemory(val) {
-    let rem = this.DataPointer % 4
-    this.MEM.writeMem(this.DataPointer - rem, (val << ((3 - rem) * 8)) | this.MEM.readMem(this.DataPointer - rem))
-    console.log("MEM ADDRESS: ", this.DataPointer, " value: ", (this.MEM.readMem(this.DataPointer - rem) << (8 * rem)) >> (24), "Aligned MEM ADDRESS: ", this.DataPointer - rem, " Aligned value: ", this.MEM.readMem(this.DataPointer - rem))
+    let rem = this.DataPointer % 4;
+    this.MEM.writeMem(
+      this.DataPointer - rem,
+      (val << ((3 - rem) * 8)) | this.MEM.readMem(this.DataPointer - rem)
+    );
+    console.log(
+      "MEM ADDRESS: ",
+      this.DataPointer,
+      " value: ",
+      (this.MEM.readMem(this.DataPointer - rem) << (8 * rem)) >> 24,
+      "Aligned MEM ADDRESS: ",
+      this.DataPointer - rem,
+      " Aligned value: ",
+      this.MEM.readMem(this.DataPointer - rem)
+    );
     this.DataPointer++;
   }
 
@@ -327,26 +353,22 @@ class ImproperDataParser {
     while (curr.type != "EOF") {
       try {
         if (curr.type == "Section") {
-
           console.log("Section", curr.val);
-        }
-        else if (curr.type == "MemoryLabel") {
+        } else if (curr.type == "MemoryLabel") {
           let currentLabel = curr.value;
           this.pos++;
           console.log("MemoryLabel", currentLabel);
           curr = this.currentToken();
 
           if (curr.type == "Directive") {
-
             console.log("Directive", curr.value);
-            labels[currentLabel] = this.DataPointer
+            labels[currentLabel] = this.DataPointer;
             switch (curr.value) {
-
               case "asciz":
               case "string":
                 this.pos++;
                 curr = this.currentToken();
-                console.log(curr)
+                console.log(curr);
                 if (curr.type == "STRING") {
                   //Use this.MEM
                   //Handle it
@@ -358,18 +380,22 @@ class ImproperDataParser {
                   }
 
                   if (str.length % 4 == 0) {
-                    this.MEM.writeMem(this.DataPointer, 0)
-                    console.log("MEM ADDRESS: ", this.DataPointer, " value: ", this.MEM.readMem(this.DataPointer))
+                    this.MEM.writeMem(this.DataPointer, 0);
+                    console.log(
+                      "MEM ADDRESS: ",
+                      this.DataPointer,
+                      " value: ",
+                      this.MEM.readMem(this.DataPointer)
+                    );
                     this.DataPointer += 4;
                   }
                 }
                 break;
 
               case "equ":
-
                 this.pos++;
                 curr = this.currentToken();
-                console.log(curr)
+                console.log(curr);
 
                 if (
                   curr.type == "PosNumericLiteral" ||
@@ -379,7 +405,6 @@ class ImproperDataParser {
                   for (let i = 0; i < 4; i++) {
                     this.alignMemory((curr.value << (i * 8)) >> 24);
                   }
-
                 }
                 break;
 
@@ -388,7 +413,7 @@ class ImproperDataParser {
               case "word":
                 this.pos++;
                 curr = this.currentToken();
-                console.log(curr)
+                console.log(curr);
                 if (
                   curr.type == "PosNumericLiteral" ||
                   curr.type == "NegNumericLiteral"
@@ -400,7 +425,7 @@ class ImproperDataParser {
 
                 while (this.tokens[this.pos + 1].type == "COMMA") {
                   this.pos += 2;
-                  curr = this.currentToken()
+                  curr = this.currentToken();
                   if (
                     curr.type == "PosNumericLiteral" ||
                     curr.type == "NegNumericLiteral"
@@ -408,7 +433,6 @@ class ImproperDataParser {
                     for (let i = 0; i < 4; i++) {
                       this.alignMemory((curr.value << (i * 8)) >> 24);
                     }
-
                   }
                 }
                 break;
@@ -418,36 +442,32 @@ class ImproperDataParser {
               case "dword":
                 this.pos++;
                 curr = this.currentToken();
-                console.log(curr)
+                console.log(curr);
                 if (
                   curr.type == "PosNumericLiteral" ||
                   curr.type == "NegNumericLiteral"
                 ) {
-
                   for (let i = 0; i < 4; i++) {
                     this.alignMemory(0);
                   }
                   for (let i = 0; i < 4; i++) {
                     this.alignMemory((curr.value << (i * 8)) >> 24);
                   }
-
                 }
 
                 while (this.tokens[this.pos + 1].type == "COMMA") {
                   this.pos += 2;
-                  curr = this.currentToken()
+                  curr = this.currentToken();
                   if (
                     curr.type == "PosNumericLiteral" ||
                     curr.type == "NegNumericLiteral"
                   ) {
-
                     for (let i = 0; i < 4; i++) {
                       this.alignMemory(0);
                     }
                     for (let i = 0; i < 4; i++) {
                       this.alignMemory((curr.value << (i * 8)) >> 24);
                     }
-
                   }
                 }
                 break;
@@ -455,7 +475,7 @@ class ImproperDataParser {
               case "byte":
                 this.pos++;
                 curr = this.currentToken();
-                console.log(curr)
+                console.log(curr);
                 if (
                   curr.type == "PosNumericLiteral" ||
                   curr.type == "NegNumericLiteral"
@@ -465,7 +485,7 @@ class ImproperDataParser {
 
                 while (this.tokens[this.pos + 1].type == "COMMA") {
                   this.pos += 2;
-                  curr = this.currentToken()
+                  curr = this.currentToken();
                   if (
                     curr.type == "PosNumericLiteral" ||
                     curr.type == "NegNumericLiteral"
@@ -480,7 +500,7 @@ class ImproperDataParser {
               case "half":
                 this.pos++;
                 curr = this.currentToken();
-                console.log(curr)
+                console.log(curr);
                 if (
                   curr.type == "PosNumericLiteral" ||
                   curr.type == "NegNumericLiteral"
@@ -491,7 +511,7 @@ class ImproperDataParser {
 
                 while (this.tokens[this.pos + 1].type == "COMMA") {
                   this.pos += 2;
-                  curr = this.currentToken()
+                  curr = this.currentToken();
                   if (
                     curr.type == "PosNumericLiteral" ||
                     curr.type == "NegNumericLiteral"
@@ -504,27 +524,22 @@ class ImproperDataParser {
 
               default:
             }
-
-
           }
           //Handle it
           //   labels[currentLabel] = ; //Mapped value from memory -------> [done]
-        }
+        } else if (curr.type == "NEWLINE") {
         /**else if (curr.type == "Directive") {
           //Only directives
         }*/
-        else if (curr.type == "NEWLINE") {
-          console.log(curr.type)
-        }
-        else {
+          console.log(curr.type);
+        } else {
           throw new SyntaxError(
             `Unexpected Token Type: ${curr.type} on line ${curr.line};`
           );
         }
 
         this.pos++;
-        curr = this.currentToken()
-
+        curr = this.currentToken();
       } catch (err) {
         console.log("ERROR:", err);
         break;
@@ -542,5 +557,4 @@ let test = new ImproperDataParser(`data: \
                             msg5: .word 2 \n
                             msg6: .asciz "hemllo" \n`);
 
-console.log('Labels: ', labels)
-
+console.log("Labels: ", labels);

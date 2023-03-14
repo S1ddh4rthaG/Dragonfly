@@ -106,7 +106,6 @@ const registers = {
   x29: 29,
   x30: 30,
   x31: 31,
-
 };
 
 class Lexer {
@@ -423,7 +422,9 @@ class Lexer {
 
 class ImproperParser {
   constructor(source) {
-    this.lexer = new Lexer(source.substring(source.lastIndexOf('\n') + 1).trim());
+    this.lexer = new Lexer(
+      source.substring(source.lastIndexOf("\n") + 1).trim()
+    );
     this.tokens = this.lexer.lex_lines;
     this.pos = 0;
   }
@@ -1536,8 +1537,7 @@ let st = [
   "bltu zero, a0, label",
 ];
 
-let str = ["add x1, s0, s1 \nadd x", "add x1, s"]
-
+let str = ["add x1, s0, s1 \nadd x", "add x1, s"];
 
 //let str = ['l', 'lu', 'lui', 'lui s', 'lui s5', 'lui s5,', 'lui s5, 19']
 //let str = ['j', 'ja', 'jal', 'jal a', 'jal a0', 'jal a0,', 'jal a0, l', 'jal a0, la', 'jal a0, lab', 'jal a0, labe', 'jal a0, label']

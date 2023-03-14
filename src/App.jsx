@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import { Pipeline, Registers, Memory } from "./Pipeline";
-import dParser from "./Parser";
+import { Pipeline, Registers, Memory } from "./components/Pipeline";
+import dParser from "./core/Parser";
 
 import AceEditor from "react-ace";
 
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-github";
-
 import "./index.css";
-import RISCv from "./RISCv.png";
-import RISC_V from "./Processor";
 
+import RISC_V from "./core/Processor";
 let core = new RISC_V([]);
+
 function App() {
   const [coreS, setCoreS] = useState(core);
   const [err, setErr] = useState("Important Messages will show up here!");
@@ -29,7 +28,7 @@ function App() {
     }
   }
 
-  function Run() {
+  function run() {
     dParser.setSource(editor);
     const stateRISCV = dParser.convertToRiscV();
 
@@ -119,7 +118,7 @@ function App() {
                         <div className="col text-end my-auto">
                           <button
                             className="btn btn-outline-dark fw-bold"
-                            onClick={Run}
+                            onClick={run}
                           >
                             <span className="align-middle">Run</span>
                             <i class="bi bi-play-fill align-middle fs-5"></i>
@@ -129,7 +128,7 @@ function App() {
                     </div>
                     <div
                       className="row m-0 p-0 flex-fill border-bottom tab-content overflow-auto border-top"
-                      style={{ height: "700px" }}
+                      style={{ height: "500px" }}
                       id="pills-tabContent"
                     >
                       <div
@@ -191,7 +190,7 @@ function App() {
                           Registers
                         </h5>
                       </div>
-                      <div className="row m-1 p-0 mt-1 border text-center regs-display">
+                      <div className="row m-1 p-0 mt-1 text-center regs-display">
                         <Registers MEM={coreS.MEM} />
                       </div>
                       <div className="row m-0 p-1 flex-fill text-center">
@@ -199,9 +198,6 @@ function App() {
                           <div className="col-lg-8 mx-auto my-auto mt-3">
                             <table className="mx-auto table table-borderless">
                               <thead>
-                                <td colSpan={12}>
-                                  <img src={RISCv} alt="RISCV Banner" />
-                                </td>
                                 <tr>
                                   <td colSpan="12" className="fw-bold">
                                     <span className="bg-dark text-white p-1 ps-2 pe-2  rounded">
