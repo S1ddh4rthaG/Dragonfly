@@ -6,6 +6,8 @@ import Memory from "./components/Memory";
 import Registers from "./components/Registers";
 
 import Dashboard from "./components/Dashboard";
+import Contributors from "./components/Contributors";
+import InfoModal from "./components/InfoModal";
 
 // Parser
 import dParser from "./core/Parser";
@@ -103,7 +105,7 @@ function App() {
       const core = new RISC_V(stateRISCV[1]);
       core.enabledDF = dataForwarding;
       core.MEM.endian = endian;
-
+      console.log(core.MEM.endian, "Endian Ness");
       setErr("-");
 
       core.startProcessor();
@@ -130,6 +132,7 @@ function App() {
             read: core.MEM.memReads,
             write: core.MEM.memWrites,
           },
+          flgs: core.MEM.flgs,
         },
         pipeline: {
           no_of_cycles: core.cycles,
@@ -312,49 +315,6 @@ function App() {
                               <i className="bi bi-info-circle"></i>
                             </button>
                           </div>
-
-                          <div
-                            className="modal fade"
-                            id="infoModal"
-                            tabIndex="-1"
-                            aria-labelledby="exampleModalLabel"
-                            aria-hidden="true"
-                          >
-                            <div className="modal-dialog modal-dialog-centered">
-                              <div className="modal-content">
-                                <div className="modal-header">
-                                  <h5
-                                    className="modal-title"
-                                    id="exampleModalLabel"
-                                  >
-                                    Dragonfly Simulator
-                                  </h5>
-                                  <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                  ></button>
-                                </div>
-                                <div className="modal-body">
-                                  <p>
-                                    This simulator is a work in progress and is
-                                    not yet complete. It is based on the
-                                    Dragonfly ISA and is intended to be used for
-                                    educational purposes only.
-                                  </p>
-                                  <p>
-                                    The simulator is currently in beta and does
-                                    not support all instructions. The simulator
-                                    is also not guaranteed to be bug-free. If
-                                    you find any bugs, please report them.
-                                  </p>
-
-                                  <div className="stats-board d-flex flex-row justify-content-between"></div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -426,67 +386,7 @@ function App() {
                       <div className="row m-1 p-0 mt-1 text-center regs-display">
                         <Registers MEM={coreS.MEM} />
                       </div>
-                      <div className="row m-0 p-1 flex-fill text-center">
-                        <div className="my-auto mx-auto">
-                          <div className="col-lg-8 mx-auto my-auto mt-3">
-                            <table className="mx-auto table table-borderless">
-                              <thead>
-                                <tr>
-                                  <td colSpan="12" className="fw-bold">
-                                    <span className="bg-dark text-white p-1 ps-2 pe-2  rounded">
-                                      Contributors
-                                    </span>
-                                  </td>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>
-                                  <td className="text-start align-middle fw-bold">
-                                    Siddhartha G
-                                  </td>
-                                  <td className="text-center" colSpan={2}>
-                                    <div className="social">
-                                      <a
-                                        href="https://github.com/S1ddh4rthaG"
-                                        className="p-1 fs-5 me-2"
-                                      >
-                                        <i className="bi bi-github text-dark"></i>
-                                      </a>
-                                      <a
-                                        href="https://www.linkedin.com/in/siddharthag22/"
-                                        className="p-1 fs-5 me-2"
-                                      >
-                                        <i className="bi bi-linkedin text-primary"></i>
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td className="text-start align-middle fw-bold">
-                                    Preethi Varsha M
-                                  </td>
-                                  <td className="text-center" colSpan={2}>
-                                    <div className="social">
-                                      <a
-                                        href="https://github.com/PreethiVarshaM"
-                                        className="p-1 fs-5 me-2"
-                                      >
-                                        <i className="bi bi-github text-dark"></i>
-                                      </a>
-                                      <a
-                                        href="https://www.linkedin.com/in/preethi-varsha-70211b210"
-                                        className="p-1 fs-5 me-2"
-                                      >
-                                        <i className="bi bi-linkedin text-primary"></i>
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
+                      <Contributors />
                     </div>
                   </div>
                 </div>
@@ -496,6 +396,7 @@ function App() {
         </div>
       </div>
       <Dashboard nerdStats={nerdStats} />
+      <InfoModal />
     </div>
   );
 }

@@ -52,17 +52,17 @@ export default function Dashboard(props) {
 
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="statsModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Dragonfly Simulator
+      <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title text-center" id="exampleModalLabel">
+              Dragonfly Run Stats
             </h5>
             <button
               type="button"
@@ -71,9 +71,9 @@ export default function Dashboard(props) {
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
-            <div class="container">
-              <div class="row gx-2 gy-2">
+          <div className="modal-body">
+            <div className="container">
+              <div className="row gx-2 gy-2">
                 <div className="col-md-6">
                   <h4 className="fw-bold mt-1">Pipeline Stages</h4>
                   <div className="border border-2 shadow-sm p-1">
@@ -152,9 +152,9 @@ export default function Dashboard(props) {
                     </table>
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div className="col-md-6">
                   <h4 className="fw-bold mt-1">Memory:</h4>
-                  <table class="table m-0 p-0 border border-2 shadow-sm">
+                  <table className="table m-0 p-0 border border-2 shadow-sm">
                     <tbody>
                       <tr>
                         <th scope="row">PC</th>
@@ -163,7 +163,7 @@ export default function Dashboard(props) {
                       <tr>
                         <th scope="row">Endian Type</th>
                         <td>
-                          {nerdStats.memory.endian_type
+                          {nerdStats.memory.endian
                             ? "Little Endian"
                             : "Big Endian"}
                         </td>
@@ -179,9 +179,9 @@ export default function Dashboard(props) {
                     </tbody>
                   </table>
                 </div>
-                <div class="col-md-6">
+                <div className="col-md-6">
                   <h4 className="fw-bold mt-1">Pipeline:</h4>
-                  <table class="table m-0 p-0 border border-2 shadow-sm">
+                  <table className="table m-0 p-0 border border-2 shadow-sm">
                     <tbody>
                       <tr>
                         <th scope="row">Cycles:</th>
@@ -205,7 +205,7 @@ export default function Dashboard(props) {
                 <div className="col-md-12">
                   <h4 className="fw-bold mt-1">Processor:</h4>
                   <div className="border border-2 shadow-sm p-1">
-                    <table class="table table-borderless">
+                    <table className="table table-borderless">
                       <tbody>
                         <tr>
                           <th scope="row">Operational Flags:</th>
@@ -354,6 +354,31 @@ export default function Dashboard(props) {
                               </tbody>
                             </table>
                           </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <h4 className="fw-bold mt-1">Memory Accesses</h4>
+                  <div className="border border-2 shadow-sm p-1">
+                    <table className="table">
+                      <tbody>
+                        <tr>
+                          <th scope="row">Reg Reads</th>
+                          <td>{nerdStats.memory.reg.read}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Reg Writes</th>
+                          <td>{nerdStats.memory.reg.write}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Mem Reads</th>
+                          <td>{nerdStats.memory.data.read}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Mem Writes</th>
+                          <td>{nerdStats.memory.data.write}</td>
                         </tr>
                       </tbody>
                     </table>
