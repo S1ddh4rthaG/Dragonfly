@@ -330,11 +330,8 @@ class RISC_V {
       };
       return;
     }
-    if (this.IP !== this.MEM.PC) {
-      this.MEM.writePC(this.IP);
-    }
 
-    if (this.MEM.PC < this.INST.length * 4) {
+    if (this.MEM.PC < this.INST.length * 4 || this.MEM.PC !== this.IP) {
       let fetchedPC = this.MEM.PC / 4;
       let inst = this.INST[fetchedPC];
 
