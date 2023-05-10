@@ -8,6 +8,10 @@ class Memory {
     this.MEM = Array(0x1000).fill(0x0);
 
     this.endian = false; //true => Little Endian, false => Big Endian
+    this.regReads = 0;
+    this.regWrites = 0;
+    this.memReads = 0;
+    this.memWrites = 0;
 
     //Flags
     this.flgs = {
@@ -29,14 +33,14 @@ class Memory {
 
   writePC(val) {
     if (val > _32bit) this.flgs.ovf = true;
-
+    this.regWrites++;
     this.PC = val & _32bit;
   }
 
   //Read and Write Registers
   readReg(ID) {
     if (!(ID >= 0 && ID <= 31)) this.flgs.regAccess = true;
-
+    this.regReads++;
     return ID >= 0 && ID <= 31 ? this.REG[ID] : 0;
   }
 
@@ -45,7 +49,7 @@ class Memory {
 
     if (ID >= 1 && ID <= 31) {
       if (val > _32bit) this.flgs.regValue = true;
-
+      this.regWrites++;
       this.REG[ID] = val & _32bit;
     }
   }
@@ -56,6 +60,7 @@ class Memory {
     if (addr >= 0x1000) this.flgs.memAddr.ovf = true;
 
     if (addr % 4 === 0 && addr < 0x1000) {
+      this.memReads++;
       let half_words = this.MEM.slice(addr, addr + 4);
 
       let val = 0x0;
@@ -82,6 +87,7 @@ class Memory {
     if (addr >= 0x1000) this.flgs.memAddr.ovf = true;
 
     if (addr % 4 === 0 && addr < 0x1000) {
+      this.memWrites++;
       val = val & _32bit;
 
       if (this.endian) {
@@ -324,6 +330,9 @@ class RISC_V {
       };
       return;
     }
+    if (this.IP !== this.MEM.PC) {
+      this.MEM.writePC(this.IP);
+    }
 
     if (this.MEM.PC < this.INST.length * 4) {
       let fetchedPC = this.MEM.PC / 4;
@@ -426,7 +435,7 @@ class RISC_V {
         if (!stallCheck && inst[0] === "jalr") {
           this.tknBranch = true;
           decodedInst = [inst[0], inst[1], 0, this.MEM.PC, "i"];
-          this.IP = imm + rs_val;
+          this.IP = this.MEM.PC + (imm + rs_val) * 4;
         } else decodedInst = [inst[0], inst[1], rs_val, imm, "i"];
         break;
 
