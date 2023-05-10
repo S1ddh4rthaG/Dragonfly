@@ -5,7 +5,7 @@ Basic RISCV Simulator developed in effort to understand pipelining and data-forw
 
 Check it out at [Dragonfly Simulator](https://dragonfly.on.fleek.co/) hosted on fleek.co.
 
-Check out the details at [Dragonfly](https://docs.google.com/spreadsheets/d/1MTAT29GAzdWuOYdeGXMxk6qQ_8ED9W3Wkp7Lfpar3eE/edit?usp=sharing)
+Please checkout the design decisions and the thought process behind the project at [Dragonfly](https://docs.google.com/spreadsheets/d/1MTAT29GAzdWuOYdeGXMxk6qQ_8ED9W3Wkp7Lfpar3eE/edit?usp=sharing)
 
 
 ## Features
